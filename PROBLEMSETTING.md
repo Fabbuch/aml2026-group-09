@@ -2,7 +2,7 @@
 
 ## Problem Setting
 
-The problem is a multi-class english hate speech detection task. This means that, for an english text $t_i$ the goal is to predict a label $y \in {normal, hate, offensive}$. 
+The problem is a multi-class english hate speech detection task. This means that, for an english text $t_i$ the goal is to predict a label $y \in$ {normal, hate, offensive}. 
 
 ## Dataset
 
