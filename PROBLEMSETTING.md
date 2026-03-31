@@ -30,4 +30,4 @@ We will calculate AUROC for each cancer type and use the average as our main met
 
 ### Hyperparameter Tuning
 
-There are two hyperparameters that we will tune for 1) the patch size of the transformer and 2) the dropout percentage of the transformer. We will find optimal values for these hyperparameters through grid search.
+There are two hyperparameters that we will tune for 1) the patch size of the transformer and 2) the dropout percentage as well as 3) the learning rate of the transformer. We will find optimal values for these hyperparameters through grid search.
