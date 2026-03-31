@@ -22,7 +22,7 @@ Our machine learning baseline is a vanilla vision transformer with RoPE as posit
 
 ### Data Split
 
-The dataset already has a train-test split, where ca. 12% of the data is used for testing and 86% for training. We will use the same split in our evaluation for both the basline and the proposed model.
+The dataset already has a train-test split, where ca. 12% of the data is used for testing and 86% for training. Furthermore, we will sample 10% from the entire dataset for our validation set to tune our hyperparameters (see below). We will use the same split in our evaluation for both the baseline and the proposed model.
 
 ### Metrics
 
