@@ -2,22 +2,18 @@
 
 ## Problem Setting
 
-The problem is a multi-class english hate speech detection task. This means that, for an english text $t_i$ the goal is to predict a label $y \in$ {normal, hate, offensive}. 
+The problem is a multi-class brain-tumor MRI classification. This means that, for an MRI image $I$ the goal is to predict a label $y \in$ {glioma, meningioma, pituitary, no tumor}.
 
 ## Dataset
 
-We use the dataset from [Toraman et al. 2022](https://github.com/metunlp/hate-speech) available on Github. The dataset consists of 68,597 english and 60,310 turkish tweets with human annotations of hate/offensive/normal labels.
+The dataset we use for training is available [here](https://www.kaggle.com/datasets/sartajbhuvaji/brain-tumor-classification-mri/data) on Kaggle. It consists of brain MRI images of four types glioma, meningioma, pituitary tumor and no tumor. The dataset has a predefined train-test split, where ca. 12% of the data is used for testing and 86% for training. We will use the same split in our evaluation.
 
 ## Proposed Approach
 
-We use a data augmentation approach for this task. We use machine translation to translate the turkish tweets to english in order to enhance the minority classes ("hate" and "offensive"). This will yield a final label distribution of 56% normal, 29% offensive and 15% hate.
+Our approach uses [PoPE](https://github.com/lucidrains/PoPE-pytorch?tab=readme-ov-file) (polar coordinate positional embeddings) in place of the usual RoPE in a vision transformer. PoPE is intended to disentangle position and content information in the embeddings, so therefore we expect improvements on a tumor classification task, where both position and content may both carry important information independently.
 
 ## Evaluation Protocol
 
-We evaluate our proposed model using hold-out testing with a 80-10-10 split of training-test-validation data. Over the test set, we calculate precision, recall and F1-score for every class and average them to obtain overall evaluation metrics.
+We will use a vanilla vision transformer as our baseline. We will also sample from the label distribution as a statistical baseline. We will calculate AUROC for each cancer type and use the average as our main metric, since AUROC balances the true positive rate with the false positive rate. We specifically want about a model that reaches a high true positive rate (sensitivity).
 
-We use the results from the best scoring model as reported in the paper (a MegatronLM model trained on the english part of the dataset) as a baseline. We also compare our results to sampling from the label distribution as a statistical baseline.
-
-## Model Architecture
-
-Our architecture consists of a [RoBERTa-large](https://huggingface.co/FacebookAI/roberta-large) encoder model with a linear classifier head and fine-tune it on our augmented english dataset.
+We will tune hyperparameters like patch size and dropout percentage using grid search to find the best performing values.
