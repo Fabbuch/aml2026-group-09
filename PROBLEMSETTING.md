@@ -2,7 +2,7 @@
 
 ## Problem Setting
 
-The problem is a multi-class brain-tumor MRI classification. This means that, for an MRI image $I$ the goal is to predict a label $y \in$ {glioma, meningioma, pituitary, no tumor}.
+The problem is a multi-class brain-tumor MRI classification task. This means that, for an MRI image $I$ the goal is to predict a label $y \in$ {glioma, meningioma, pituitary, no tumor}.
 
 ## Dataset
 
@@ -14,6 +14,6 @@ Our approach uses [PoPE](https://github.com/lucidrains/PoPE-pytorch?tab=readme-o
 
 ## Evaluation Protocol
 
-We will use a vanilla vision transformer as our baseline. We will also sample from the label distribution as a statistical baseline. We will calculate AUROC for each cancer type and use the average as our main metric, since AUROC balances the true positive rate with the false positive rate. We specifically want about a model that reaches a high true positive rate (sensitivity).
+We will use a vanilla vision transformer as our baseline. We will also sample from the label distribution as a statistical baseline. We will calculate AUROC for each cancer type and use the average as our main metric, since AUROC balances the true positive rate with the false positive rate. We specifically want a model that reaches a high true positive rate (sensitivity).
 
 We will tune hyperparameters like patch size and dropout percentage using grid search to find the best performing values.
