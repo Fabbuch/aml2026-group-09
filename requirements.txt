@@ -29,6 +29,7 @@ networkx==3.6.1
 numpy==2.4.4
 packaging==26.0
 pandas==3.0.2
+scikit-learn>=1.4.0
 pillow==12.2.0
 propcache==0.4.1
 pyarrow==23.0.1
