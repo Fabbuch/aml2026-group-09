@@ -1,6 +1,6 @@
 Tasks
 
-  - Label Distribution Sampler
+  - Label Distribution Sampler (Valentina)
   - Training Loop (Leo)
   - Evaluation loop (Vali)
   - Implementation of PoPe in vision transformer (Mattia)
