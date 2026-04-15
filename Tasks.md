@@ -1,6 +1,7 @@
 Tasks
-	- Label Distribution Sampler
-	- Training Loop (Leo)
+
+  - Label Distribution Sampler
+  - Training Loop (Leo)
   - Evaluation loop (Vali)
   - Implementation of PoPe in vision transformer (Mattia)
   - Hperparameter tuning (look for default parameters…) (Fabio)
