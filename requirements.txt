@@ -7,8 +7,10 @@ attrs==26.1.0
 certifi==2026.2.25
 charset-normalizer==3.4.7
 click==8.3.2
+colorama==0.4.6
 datasets==4.8.4
 dill==0.4.1
+einops==0.8.2
 filelock==3.25.2
 frozenlist==1.8.0
 fsspec==2026.2.0
@@ -30,6 +32,7 @@ numpy==2.4.4
 packaging==26.0
 pandas==3.0.2
 pillow==12.2.0
+PoPE-pytorch==0.1.4
 propcache==0.4.1
 pyarrow==23.0.1
 Pygments==2.20.0
@@ -41,10 +44,13 @@ shellingham==1.5.4
 six==1.17.0
 sympy==1.14.0
 torch==2.11.0
+torch-einops-utils==0.0.30
 torchvision==0.26.0
 tqdm==4.67.3
 typer==0.24.1
 typing_extensions==4.15.0
+tzdata==2026.1
 urllib3==2.6.3
+vit-pytorch==1.19.4
 xxhash==3.6.0
 yarl==1.23.0
