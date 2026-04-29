@@ -18,28 +18,34 @@ name = "aml2026-group-09"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "einops" },
     { name = "ipykernel" },
     { name = "matplotlib" },
     { name = "numpy" },
     { name = "pandas" },
     { name = "pillow" },
+    { name = "pope-pytorch" },
     { name = "scikit-learn" },
     { name = "torch" },
     { name = "torchvision" },
     { name = "tqdm" },
+    { name = "vit-pytorch" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "einops", specifier = ">=0.8.0" },
     { name = "ipykernel", specifier = ">=6.0.0" },
     { name = "matplotlib", specifier = ">=3.8.0" },
     { name = "numpy", specifier = ">=1.26.0" },
     { name = "pandas", specifier = ">=2.0.0" },
     { name = "pillow", specifier = ">=10.0.0" },
+    { name = "pope-pytorch", specifier = ">=0.1.4" },
     { name = "scikit-learn", specifier = ">=1.4.0" },
     { name = "torch", specifier = ">=2.5.0" },
     { name = "torchvision", specifier = ">=0.20.0" },
     { name = "tqdm", specifier = ">=4.66.0" },
+    { name = "vit-pytorch", specifier = ">=1.0.0" },
 ]
 
 [[package]]
@@ -342,6 +348,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/43/fa/6d96a0978d19e17b68d634497769987b16c8f4cd0a7a05048bec693caa6b/decorator-5.2.1.tar.gz", hash = "sha256:65f266143752f734b0a7cc83c46f4618af75b8c5911b00ccb61d0ac9b6da0360", size = 56711, upload-time = "2025-02-24T04:41:34.073Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4e/8c/f3147f5c4b73e7550fe5f9352eaa956ae838d5c51eb58e7a25b9f3e2643b/decorator-5.2.1-py3-none-any.whl", hash = "sha256:d316bb415a2d9e2d2b3abcc4084c6502fc09240e292cd76a76afc106a1c8e04a", size = 9190, upload-time = "2025-02-24T04:41:32.565Z" },
+]
+
+[[package]]
+name = "einops"
+version = "0.8.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2c/77/850bef8d72ffb9219f0b1aac23fbc1bf7d038ee6ea666f331fa273031aa2/einops-0.8.2.tar.gz", hash = "sha256:609da665570e5e265e27283aab09e7f279ade90c4f01bcfca111f3d3e13f2827", size = 56261, upload-time = "2026-01-26T04:13:17.638Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2a/09/f8d8f8f31e4483c10a906437b4ce31bdf3d6d417b73fe33f1a8b59e34228/einops-0.8.2-py3-none-any.whl", hash = "sha256:54058201ac7087911181bfec4af6091bb59380360f069276601256a76af08193", size = 65638, upload-time = "2026-01-26T04:13:18.546Z" },
 ]
 
 [[package]]
@@ -1273,6 +1288,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pope-pytorch"
+version = "0.1.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "einops" },
+    { name = "torch" },
+    { name = "torch-einops-utils" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c4/a7/26d4971ead96e6ae33c80fcd6aad2e0059bed3bc945adeb44a27909a3db0/pope_pytorch-0.1.4.tar.gz", hash = "sha256:e6d2da92d3ac0913d999a47c24d53392fc8ee5cc2bc5a0c2e6cd0a7bbd383ff9", size = 15748, upload-time = "2026-03-25T18:45:15.679Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/69/62/10eaf6964dbe0cc4b779535c00d7ea35f48bf96fa5a4acab226292f63e1d/pope_pytorch-0.1.4-py3-none-any.whl", hash = "sha256:0654765275b852af7ccfe59b868f04a10e6dc2de61b0695c35b98847a327824b", size = 18108, upload-time = "2026-03-25T18:45:14.466Z" },
+]
+
+[[package]]
 name = "prompt-toolkit"
 version = "3.0.52"
 source = { registry = "https://pypi.org/simple" }
@@ -1649,6 +1678,19 @@ wheels = [
 ]
 
 [[package]]
+name = "torch-einops-utils"
+version = "0.0.30"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "einops" },
+    { name = "torch" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f0/f8/7f6cd1a88ac32c8ca5216af6cfb9206468fa445cb85afb97986e60352160/torch_einops_utils-0.0.30.tar.gz", hash = "sha256:bb3b3b0c0fd183dbc8817256657d7dddc1969da462167d9dc84ff99e73fcb524", size = 9430, upload-time = "2026-02-20T13:03:53.826Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/92/5e/78ef01a3b65c13566ad39321db413c604085a9a92cd8879c50b0d90c587e/torch_einops_utils-0.0.30-py3-none-any.whl", hash = "sha256:334aa85b246aca580263cf85857031919835531356b58f938f197eb0a2a6dc08", size = 7238, upload-time = "2026-02-20T13:03:52.709Z" },
+]
+
+[[package]]
 name = "torchvision"
 version = "0.26.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1757,6 +1799,20 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/19/f5/cd531b2d15a671a40c0f66cf06bc3570a12cd56eef98960068ebbad1bf5a/tzdata-2026.1.tar.gz", hash = "sha256:67658a1903c75917309e753fdc349ac0efd8c27db7a0cb406a25be4840f87f98", size = 197639, upload-time = "2026-04-03T11:25:22.002Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b0/70/d460bd685a170790ec89317e9bd33047988e4bce507b831f5db771e142de/tzdata-2026.1-py2.py3-none-any.whl", hash = "sha256:4b1d2be7ac37ceafd7327b961aa3a54e467efbdb563a23655fbfe0d39cfc42a9", size = 348952, upload-time = "2026-04-03T11:25:20.313Z" },
+]
+
+[[package]]
+name = "vit-pytorch"
+version = "1.20.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "einops" },
+    { name = "torch" },
+    { name = "torchvision" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1e/0f/16cf80ee030f00e7ee807f786fddaa2cae4009246107c69cd1195668ca8b/vit_pytorch-1.20.1.tar.gz", hash = "sha256:cb38765def56955084b9b8ca0f1de9a4f435a60df1bc58f41ddf03e4aa4452e8", size = 143420, upload-time = "2026-04-18T16:46:41.789Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/78/38/6a7771ba06d8b41e575d4c493ae0c2e2e3733f0e8cfce53014ef50c9a590/vit_pytorch-1.20.1-py3-none-any.whl", hash = "sha256:4dbc925c9194924ae63b713598ed94970dc5a38f989312e0a7a372681d383933", size = 181652, upload-time = "2026-04-18T16:46:39.744Z" },
 ]
 
 [[package]]
