@@ -8,6 +8,6 @@ if [ -d "/home/renku/work/brain-tumor-classification-dataset_copy" ]; then
 else
 # Unzip the dataset to ./brain-tumor-classification-dataset_copy
     echo "Unzipping dataset to the local session..."
-    unzip /home/renku/work/brain-tumor-classification-dataset_copy.zip -d /home/renku/work/brain-tumor-classification-dataset_copy
+    unzip /home/renku/work/aml2026-group-09/Brain-Tumor-Classification-DataSet_copy.zip -d /home/renku/work/brain-tumor-classification-dataset_copy
     echo "Dataset unzipped to the local session."
 fi
