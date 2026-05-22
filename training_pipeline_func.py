@@ -71,8 +71,8 @@ class TrainingConfig:
     """Single source of truth for every tunable hyperparameter."""
 
     # ── Data ──────────────────────────────────────────────────────────────
-    data_dir: str = './Brain-Tumor-Classification-DataSet' # Local run
-    # data_dir: str = './../brain-tumor-classification-dataset_copy/Brain-Tumor-Classification-DataSet_copy' # Renku run
+    data_dir = './Brain-Tumor-Classification-DataSet' # Local run
+    # data_dir = './../brain-tumor-classification-dataset_copy/Brain-Tumor-Classification-DataSet_copy' # Renku run
     image_size:         int   = 224
     batch_size:         int   = 32
     num_workers:        int   = 0
