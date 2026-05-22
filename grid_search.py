@@ -50,7 +50,7 @@ if __name__ == '__main__':
     gs_results = run_grid_search(
         param_grid = {
             'learning_rate': [1e-4, 3e-4, 1e-3],
-            'dropout':       [0,1, 0.2, 0.5],
+            'dropout':       [0.1, 0.2, 0.5],
             'patch_size':    [8, 16, 32],
         },
         base_cfg = base_cfg,
