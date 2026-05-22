@@ -24,6 +24,12 @@ from PoPE_pytorch import PoPE
 from einops import rearrange, repeat
 from einops.layers.torch import Rearrange
 
+try:
+    import timm
+    _TIMM_AVAILABLE = True
+except ImportError:
+    _TIMM_AVAILABLE = False
+
 
 # ── Shared feed-forward block ─────────────────────────────────────────────────
 
@@ -50,18 +56,18 @@ class PoPEAttention(nn.Module):
     receive a learned per-head phase bias, separating *what* a token is from
     *where* it is.
     """
-    def __init__(self, dim, heads=8, dim_head=64, dropout=0.0):
+    def __init__(self, dim, heads=8, dim_head=64, dropout=0.0, qkv_bias=False):
         super().__init__()
         inner_dim = dim_head * heads
         self.heads = heads
         self.scale = dim_head ** -0.5
-        self.to_qkv = nn.Linear(dim, inner_dim * 3, bias=False)
+        self.to_qkv = nn.Linear(dim, inner_dim * 3, bias=qkv_bias)
         self.to_out = nn.Sequential(nn.Linear(inner_dim, dim), nn.Dropout(dropout))
         self.attend = nn.Softmax(dim=-1)
         self.dropout = nn.Dropout(dropout)
         self.pope = PoPE(dim=dim_head, heads=heads)
 
-    def forward(self, x):
+    def forward(self, x, **_):
         q, k, v = rearrange(self.to_qkv(x), 'b n (qkv h d) -> qkv b h n d', qkv=3, h=self.heads)
         q, k = PoPE.apply_pope_to_qk(self.pope(x.shape[1]), q, k)
         attn = self.dropout(self.attend(torch.matmul(q, k.transpose(-1, -2)) * self.scale))
@@ -126,12 +132,12 @@ class RoPEAttention(nn.Module):
     making attention scores depend only on relative positions. No absolute
     position embedding is needed alongside RoPE.
     """
-    def __init__(self, dim, heads=8, dim_head=64, dropout=0.0):
+    def __init__(self, dim, heads=8, dim_head=64, dropout=0.0, qkv_bias=False):
         super().__init__()
         inner_dim = dim_head * heads
         self.heads = heads
         self.scale = dim_head ** -0.5
-        self.to_qkv = nn.Linear(dim, inner_dim * 3, bias=False)
+        self.to_qkv = nn.Linear(dim, inner_dim * 3, bias=qkv_bias)
         self.to_out = nn.Sequential(nn.Linear(inner_dim, dim), nn.Dropout(dropout))
         self.attend = nn.Softmax(dim=-1)
         self.dropout = nn.Dropout(dropout)
@@ -152,7 +158,7 @@ class RoPEAttention(nn.Module):
         x1, x2 = x[..., :half], x[..., half:]
         return torch.cat([x1 * cos - x2 * sin, x1 * sin + x2 * cos], dim=-1)
 
-    def forward(self, x):
+    def forward(self, x, **_):
         q, k, v = rearrange(self.to_qkv(x), 'b n (qkv h d) -> qkv b h n d', qkv=3, h=self.heads)
         q, k = self._apply_rope(q), self._apply_rope(k)
         attn = self.dropout(self.attend(torch.matmul(q, k.transpose(-1, -2)) * self.scale))
@@ -204,3 +210,73 @@ class RoPEViT(nn.Module):
         for block in self.transformer:
             x = block(x)
         return self.mlp_head(self.norm(x).mean(dim=1))
+
+
+# ── Pretrained DeiT with optional PoPE attention swap ─────────────────────────
+
+def _swap_deit_attn_to_rope(model: nn.Module, dropout: float = 0.0) -> nn.Module:
+    """Replace every attention layer in a timm DeiT model with RoPEAttention in-place."""
+    for block in model.blocks:
+        old  = block.attn
+        dim  = old.qkv.in_features
+        heads = old.num_heads
+        rope = RoPEAttention(dim=dim, heads=heads, dim_head=dim // heads,
+                             dropout=dropout, qkv_bias=True)
+        rope.to_qkv.weight.data.copy_(old.qkv.weight.data)
+        rope.to_qkv.bias.data.copy_(old.qkv.bias.data)
+        rope.to_out[0].weight.data.copy_(old.proj.weight.data)
+        rope.to_out[0].bias.data.copy_(old.proj.bias.data)
+        block.attn = rope
+    return model
+
+
+def _swap_deit_attn_to_pope(model: nn.Module, dropout: float = 0.0) -> nn.Module:
+    """Replace every attention layer in a timm DeiT model with PoPEAttention.
+
+    Copies all transferable weights (qkv projection + output projection) so the
+    backbone representations are preserved; only the positional encoding
+    mechanism changes.  Called in-place and also returns the model.
+    """
+    for block in model.blocks:
+        old = block.attn
+        dim   = old.qkv.in_features
+        heads = old.num_heads
+        pope  = PoPEAttention(dim=dim, heads=heads, dim_head=dim // heads,
+                              dropout=dropout, qkv_bias=True)
+        pope.to_qkv.weight.data.copy_(old.qkv.weight.data)
+        pope.to_qkv.bias.data.copy_(old.qkv.bias.data)
+        pope.to_out[0].weight.data.copy_(old.proj.weight.data)
+        pope.to_out[0].bias.data.copy_(old.proj.bias.data)
+        block.attn = pope
+    return model
+
+
+def _build_deit_small_rope(cfg, num_classes: int = 4) -> nn.Module:
+    if not _TIMM_AVAILABLE:
+        raise ImportError('timm is required. Run: uv add timm')
+    model = timm.create_model(
+        'deit_small_patch16_224', pretrained=True, num_classes=num_classes,
+        drop_rate=cfg.dropout,
+    )
+    _swap_deit_attn_to_rope(model, dropout=cfg.dropout)
+    return model
+
+
+def _build_deit_small_pretrained(cfg, num_classes: int = 4) -> nn.Module:
+    if not _TIMM_AVAILABLE:
+        raise ImportError('timm is required. Run: uv add timm')
+    return timm.create_model(
+        'deit_small_patch16_224', pretrained=True, num_classes=num_classes,
+        drop_rate=cfg.dropout,
+    )
+
+
+def _build_deit_small_pope(cfg, num_classes: int = 4) -> nn.Module:
+    if not _TIMM_AVAILABLE:
+        raise ImportError('timm is required. Run: uv add timm')
+    model = timm.create_model(
+        'deit_small_patch16_224', pretrained=True, num_classes=num_classes,
+        drop_rate=cfg.dropout,
+    )
+    _swap_deit_attn_to_pope(model, dropout=cfg.dropout)
+    return model

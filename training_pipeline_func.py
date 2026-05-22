@@ -377,10 +377,25 @@ def _build_pope_vit(cfg: TrainingConfig) -> nn.Module:
         dropout=cfg.dropout,
     )
 
+def _build_deit_small_pretrained(cfg: TrainingConfig) -> nn.Module:
+    from model import _build_deit_small_pretrained as _build
+    return _build(cfg, num_classes=NUM_CLASSES)
+
+def _build_deit_small_pope(cfg: TrainingConfig) -> nn.Module:
+    from model import _build_deit_small_pope as _build
+    return _build(cfg, num_classes=NUM_CLASSES)
+
+def _build_deit_small_rope(cfg: TrainingConfig) -> nn.Module:
+    from model import _build_deit_small_rope as _build
+    return _build(cfg, num_classes=NUM_CLASSES)
+
 _MODEL_REGISTRY = {
-    'resnet18_scratch': _build_resnet18_scratch,
-    'rope_vit':         _build_rope_vit,
-    'pope_vit':         _build_pope_vit,
+    'resnet18_scratch':       _build_resnet18_scratch,
+    'rope_vit':               _build_rope_vit,
+    'pope_vit':               _build_pope_vit,
+    'deit_small_pretrained':  _build_deit_small_pretrained,
+    'deit_small_rope':        _build_deit_small_rope,
+    'deit_small_pope':        _build_deit_small_pope,
 }
 
 
