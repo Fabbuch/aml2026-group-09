@@ -1,0 +1,59 @@
+{
+  "timestamp": "20260526_173356",
+  "model": "deit_small_pretrained",
+  "checkpoint": "checkpoints/deit_small_pretrained_best.pt",
+  "data_dir": "./Brain-Tumor-Classification-DataSet",
+  "split": "test",
+  "samples": 325,
+  "image_size": 224,
+  "norm_from_split": "train",
+  "norm_mean": [
+    0.1876508891582489,
+    0.1876508891582489,
+    0.1876508891582489
+  ],
+  "norm_std": [
+    0.17781130969524384,
+    0.17781130969524384,
+    0.17781130969524384
+  ],
+  "loss_type": "weighted_ce_train_class_weights",
+  "device": "cpu",
+  "metrics": {
+    "loss": 0.6545301355886309,
+    "accuracy": 0.8769230769230769,
+    "auroc": {
+      "no_tumor": 0.9813090909090909,
+      "meningioma_tumor": 0.9902669632925474,
+      "glioma_tumor": 0.9860515021459229,
+      "pituitary_tumor": 0.9866666666666668,
+      "mean": 0.986073555753557
+    },
+    "confusion_matrix": [
+      [
+        48,
+        2,
+        0,
+        0
+      ],
+      [
+        2,
+        90,
+        0,
+        1
+      ],
+      [
+        3,
+        5,
+        84,
+        0
+      ],
+      [
+        21,
+        5,
+        1,
+        63
+      ]
+    ]
+  }
+}
