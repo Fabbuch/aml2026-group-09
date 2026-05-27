@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-04-19T11:59:30",
+  "dataset_root": "Brain-Tumor-Classification-DataSet",
+  "prediction_mode": "sample",
+  "seed": 42,
+  "classes": [
+    "no_tumor",
+    "meningioma_tumor",
+    "glioma_tumor",
+    "pituitary_tumor"
+  ],
+  "train_counts": {
+    "no_tumor": 400,
+    "meningioma_tumor": 749,
+    "glioma_tumor": 740,
+    "pituitary_tumor": 720
+  },
+  "train_priors": {
+    "no_tumor": 0.15331544653123802,
+    "meningioma_tumor": 0.28708317362974317,
+    "glioma_tumor": 0.28363357608279033,
+    "pituitary_tumor": 0.2759678037562284
+  },
+  "splits": {
+    "dev": {
+      "samples": 330,
+      "auroc_per_class": {
+        "no_tumor": 0.5303571428571429,
+        "meningioma_tumor": 0.49417693169092947,
+        "glioma_tumor": 0.5026595744680851,
+        "pituitary_tumor": 0.545335417720355
+      },
+      "auroc_average": 0.5181322666841282
+    },
+    "test": {
+      "samples": 325,
+      "auroc_per_class": {
+        "no_tumor": 0.5290909090909091,
+        "meningioma_tumor": 0.4899888765294772,
+        "glioma_tumor": 0.49624463519313305,
+        "pituitary_tumor": 0.5304964539007092
+      },
+      "auroc_average": 0.5114552186785571
+    }
+  }
+}
