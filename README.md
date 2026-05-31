@@ -52,7 +52,7 @@ The original train/test folders are **merged and re-split** into stratified trai
 - `Resize 224×224` · `EnsureRGB` · `ToDtype float32` · `Normalize`
 
 **Key design choices:**
-- Normalization statistics (`μ = 0.1877`, `σ = 0.1778`) computed from the training split only and applied identically to val/test
+- Normalization statistics (μ and σ) computed for each data split
 - Batch size of 32, shuffled training, ordered val/test loaders
 - Output tensors: `(B, 3, 224, 224)` float32, normalized
 
@@ -108,7 +108,7 @@ Positional embeddings tell the transformer *where* each token (image patch) is l
 
 In RoPE, query vectors $q_t$ are grouped into 2D components $q_{tc}$ for each component index $c$. Each component is treated as a complex number in polar form $(\mu, \phi)$ and **rotated** by a frequency-scaled position angle $t \cdot \theta_c$. The attention score between positions $t$ and $s$ becomes:
 
-$$a_{ts}^{\text{RoPE}} = \mu_{q_{tc}} \cdot \mu_{k_{sc}} \cdot \cos\!\bigl((s - t)\theta_c + \phi_{k_{sc}} - \phi_{q_{tc}}\bigr)$$
+$$a_{ts}^{\text{RoPE}} = \mu_{q_{tc}} \cdot \mu_{k_{sc}} \cdot \cos\bigl((s - t)\theta_c + \phi_{k_{sc}} - \phi_{q_{tc}}\bigr)$$
 
 The **problem**: the positional term $(s-t)\theta_c$ is entangled with the content-dependent initial angles $\phi_{q_{tc}}$ and $\phi_{k_{sc}}$. Position similarity and content similarity are conflated — the model cannot independently learn "where" vs "what".
 
@@ -120,11 +120,11 @@ $$\sigma(x) = \ln(1 + e^x)$$
 
 This forces $\phi = 0$, so the attention score simplifies to:
 
-$$a_{ts}^{\text{PoPE}} = \mu_{q_{tc}} \cdot \mu_{k_{sc}} \cdot \cos\!\bigl((s - t)\theta_c\bigr)$$
+$$a_{ts}^{\text{PoPE}} = \mu_{q_{tc}} \cdot \mu_{k_{sc}} \cdot \cos\bigl((s - t)\theta_c\bigr)$$
 
 Now the two terms are cleanly separated:
 - $\mu_{q_{tc}} \cdot \mu_{k_{sc}}$ — purely **content** similarity (what does this token represent?)
-- $\cos\!\bigl((s-t)\theta_c\bigr)$ — purely **positional** similarity (how far apart are these tokens?)
+- $\cos\bigl((s-t)\theta_c\bigr)$ — purely **positional** similarity (how far apart are these tokens?)
 
 **Why this matters for medical imaging:** In brain MRI, *where* a structure is located and *what* it looks like carry complementary diagnostic information. Gliomas infiltrate diffusely and can appear anywhere; pituitary tumors are almost always central. PoPE's explicit disentanglement is hypothesized to help the model learn more meaningful representations for distinguishing tumor types by location and appearance independently.
 
