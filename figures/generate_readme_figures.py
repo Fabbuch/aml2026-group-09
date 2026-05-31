@@ -130,7 +130,7 @@ def make_pipeline_figure():
     ax_split.set_xlim(0, 1)
     ax_split.set_ylim(-0.5, 0.9)
     ax_split.axis("off")
-    ax_split.legend(loc="upper center", bbox_to_anchor=(0.5, 1.18),
+    ax_split.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12),
                     ncol=3, fontsize=9, frameon=False)
     ax_split.set_title("Stratified Train / Val / Test Split\n(label distribution identical across splits)",
                         fontsize=10, color="#333333")
